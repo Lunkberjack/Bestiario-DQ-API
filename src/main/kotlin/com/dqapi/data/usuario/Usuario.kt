@@ -6,7 +6,7 @@ import org.bson.types.ObjectId
 data class Usuario (
     val username: String,
     val pass: String,
-    val salt: String,
+    val sal: String,
     @BsonId
     val id: ObjectId = ObjectId()
 )

@@ -35,4 +35,6 @@ dependencies {
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
 
     implementation("org.litote.kmongo:kmongo:$kmongo_version")
+
+    implementation("commons-codec:commons-codec:1.15")
 }
