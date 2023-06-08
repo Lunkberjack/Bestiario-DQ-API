@@ -1,5 +1,7 @@
 package com.dqapi
 
+import com.dqapi.data.monstruo.MonstruoDataSource
+import com.dqapi.data.monstruo.MonstruoDataSourceImpl
 import com.dqapi.data.usuario.Usuario
 import com.dqapi.data.usuario.UsuarioDataSourceImpl
 import io.ktor.server.application.*
@@ -22,13 +24,15 @@ fun Application.module() {
     val mongoPass = System.getenv("MONGO_PW")
     val dbName = "dragon-quest-api"
     val db = KMongo.createClient(
-        connectionString = "mongodb+srv://Lunkberjack:$mongoPass@cluster0.kuelx0l.mongodb.net/$dbName?retryWrites=true&w=majority"
+        connectionString = "mongodb+srv://Lunkberjack:$mongoPass@cluster0.oefkqxo.mongodb.net/$dbName?retryWrites=true&w=majority"
     ).getDatabase(dbName)
 
     val usuarioDataSource = UsuarioDataSourceImpl(db)
+    val monstruoDataSource = MonstruoDataSourceImpl(db)
     val tokenServicio = JwtTokenService()
 
     // En el archivo de configuración application.conf tenemos que definir estas propiedades.
+
     val tokenConf = JwtTokenConfig(
         issuer = environment.config.property("jwt.issuer").getString(),
         audience = environment.config.property("jwt.audience").getString(),
@@ -54,7 +58,7 @@ fun Application.module() {
     // Pasamos una instancia de la clase configuración al método que
     // tendrá en cuenta dicha configuración para la seguridad.
     configureSecurity(tokenConf)
-    configureRouting(usuarioDataSource, hashServicio, tokenServicio, tokenConf)
+    configureRouting(usuarioDataSource, hashServicio, tokenServicio, tokenConf, monstruoDataSource)
     configureSerialization()
     configureMonitoring()
 }
