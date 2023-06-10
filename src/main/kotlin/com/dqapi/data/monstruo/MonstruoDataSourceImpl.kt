@@ -12,6 +12,12 @@ class MonstruoDataSourceImpl(
 ): MonstruoDataSource {
     val monstruos = db.getCollection<Monstruo>("monstruos")
 
+    override suspend fun getMonstruoIdLista(idLista: String): Monstruo? {
+        // Encontramos un monstruo en la db que tenga el mismo id que el que
+        // hemos pasado como parámetro.
+        return monstruos.findOne(Monstruo::idLista eq idLista)
+    }
+
     override suspend fun getMonstruoNombre(nombre: String): Monstruo? {
         // Encontramos un monstruo en la db que tenga el mismo nombre que el que
         // hemos pasado como parámetro.

@@ -3,7 +3,6 @@ package com.dqapi.data.peticiones
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class PeticionMonstruo(
+data class PeticionMonstruoNombre(
     val nombre: String,
-    val imagen: String
 )

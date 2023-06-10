@@ -6,6 +6,7 @@ import org.bson.types.ObjectId
 
 @Serializable
 data class Monstruo (
+    val idLista: String,
     val nombre: String,
     val imagen: String,
     @BsonId

@@ -2,8 +2,7 @@ package com.dqapi
 
 import com.dqapi.data.monstruo.Monstruo
 import com.dqapi.data.monstruo.MonstruoDataSource
-import com.dqapi.data.peticiones.PeticionMonstruo
-import com.dqapi.data.respuestas.RespuestaMonstruo
+import com.dqapi.data.peticiones.PeticionMonstruoPost
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
@@ -14,7 +13,7 @@ fun Route.newMonstruo(
     monstruoDataSource: MonstruoDataSource
 ) {
     post("/new-monstruo") {
-        val peticion = call.receiveNullable<PeticionMonstruo>() ?: kotlin.run {
+        val peticion = call.receiveNullable<PeticionMonstruoPost>() ?: kotlin.run {
             call.respond(HttpStatusCode.BadRequest)
             return@post
         }
@@ -28,6 +27,7 @@ fun Route.newMonstruo(
         }
 
         val monstruo = Monstruo(
+            idLista = peticion.idLista,
             nombre = peticion.nombre,
             imagen = peticion.imagen,
         )
@@ -57,5 +57,41 @@ fun Route.getMonstruos(
                 lista // Devuelve la lista completa
             )
         }
+    }
+}
+
+fun Route.getMonstruoIdLista(
+    monstruoDataSource: MonstruoDataSource
+) {
+    get("/monstruo/id/{idLista}") {
+        val idLista = call.parameters["idLista"]
+        val monstruo = idLista?.let { it1 -> monstruoDataSource.getMonstruoIdLista(it1) }
+        monstruo?.let {
+            call.respond(
+                HttpStatusCode.OK,
+                monstruo
+            )
+        } ?: call.respond(
+            HttpStatusCode.OK,
+            "No hay ningún monstruo con ese id :("
+        )
+    }
+}
+
+fun Route.getMonstruoNombre(
+    monstruoDataSource: MonstruoDataSource
+) {
+    get("/monstruo/nombre/{nombre}") {
+        val monstruoNombre = call.parameters["nombre"]
+        val monstruo = monstruoNombre?.let { it1 -> monstruoDataSource.getMonstruoNombre(it1) }
+        monstruo?.let {
+            call.respond(
+                HttpStatusCode.OK,
+                monstruo
+            )
+        } ?: call.respond(
+            HttpStatusCode.OK,
+            "No hay ningún monstruo con ese nombre :("
+        )
     }
 }

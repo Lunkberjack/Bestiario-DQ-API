@@ -24,6 +24,8 @@ fun Application.configureRouting(
         getInfoSecreta()
         prueba()
         // Monstruo
+        getMonstruoIdLista(monstruoDataSource)
+        getMonstruoNombre(monstruoDataSource)
         newMonstruo(monstruoDataSource)
         getMonstruos(monstruoDataSource)
     }
