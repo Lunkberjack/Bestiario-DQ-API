@@ -7,6 +7,7 @@ data class Usuario (
     val username: String,
     val pass: String,
     val sal: String,
+    val admin: Boolean = false,
     @BsonId
     val id: ObjectId = ObjectId()
 )

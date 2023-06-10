@@ -106,7 +106,8 @@ fun Route.login(
         call.respond(
             status = HttpStatusCode.OK,
             message = RespuestaAuth(
-                token = token
+                token = token,
+                admin = usuario.admin
             )
         )
     }
@@ -143,13 +144,11 @@ fun Route.getInfoSecreta() {
     }
 }
 
-fun Route.prueba(
-) {
-    get("prueba") {
-        // Si todo ha ido bien devolvemos un estado OK.
-        call.respond(
-            status = HttpStatusCode.OK,
-            message = "Hola muy buenas te has conectao a la API"
-        )
+fun Route.esAdmin() {
+    // Sólo para usuarios autentificados.
+    authenticate {
+        get("admin") {
+
+        }
     }
 }

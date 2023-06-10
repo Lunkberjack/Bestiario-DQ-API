@@ -8,5 +8,6 @@ import kotlinx.serialization.Serializable
  */
 @Serializable
 data class RespuestaAuth(
-    val token: String
+    val token: String,
+    val admin: Boolean
 )

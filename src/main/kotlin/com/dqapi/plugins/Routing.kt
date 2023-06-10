@@ -22,7 +22,6 @@ fun Application.configureRouting(
         login(usuarioDataSource, hashServicio, tokenServicio, tokenConf)
         autentificar()
         getInfoSecreta()
-        prueba()
         // Monstruo
         getMonstruoIdLista(monstruoDataSource)
         getMonstruoNombre(monstruoDataSource)
