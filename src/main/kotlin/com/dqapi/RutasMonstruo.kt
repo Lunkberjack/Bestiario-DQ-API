@@ -1,7 +1,7 @@
 package com.dqapi
 
-import com.dqapi.data.monstruo.Monstruo
-import com.dqapi.data.monstruo.MonstruoDataSource
+import com.dqapi.data.bestiario.Monstruo
+import com.dqapi.data.bestiario.MonstruoDataSource
 import com.dqapi.data.peticiones.PeticionMonstruoPost
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -30,6 +30,8 @@ fun Route.newMonstruo(
             idLista = peticion.idLista,
             nombre = peticion.nombre,
             imagen = peticion.imagen,
+            familia = peticion.familia,
+            atributos = peticion.atributos
         )
 
         val realizado = monstruoDataSource.aniadirMonstruo(monstruo)
@@ -93,5 +95,69 @@ fun Route.getMonstruoNombre(
             HttpStatusCode.OK,
             "No hay ningún monstruo con ese nombre :("
         )
+    }
+}
+
+fun Route.getFamiliaNombre(
+    monstruoDataSource: MonstruoDataSource
+) {
+    get("/monstruo/familia/{nombre}") {
+        val familiaNombre = call.parameters["nombre"]
+        val familia = familiaNombre?.let { it1 -> monstruoDataSource.getFamiliaNombre(it1) }
+        familia?.let {
+            call.respond(
+                HttpStatusCode.OK,
+                familia
+            )
+        } ?: call.respond(
+            HttpStatusCode.OK,
+            "No hay ningún monstruo con ese nombre :("
+        )
+    }
+}
+
+fun Route.getJuegoAbr(
+    monstruoDataSource: MonstruoDataSource
+) {
+    get("/monstruo/juego/{abr}") {
+        val juegoAbr = call.parameters["abr"]
+        val juego = juegoAbr?.let { it1 -> monstruoDataSource.getJuegoNombre(it1) }
+        juego?.let {
+            call.respond(
+                HttpStatusCode.OK,
+                juego
+            )
+        } ?: call.respond(
+            HttpStatusCode.OK,
+            "No hay ningún monstruo con ese nombre :("
+        )
+    }
+}
+
+fun Route.filtroFamilia(
+    monstruoDataSource: MonstruoDataSource
+) {
+    get("/monstruos/{familia}") {
+        val familia = call.parameters["familia"]
+        if (familia != null) {
+            val lista: List<Monstruo> = monstruoDataSource.filtroFamilia(familia)
+            call.respond(HttpStatusCode.OK, lista)
+        } else {
+            call.respond(HttpStatusCode.BadRequest, "Familia no especificada")
+        }
+    }
+}
+
+fun Route.filtroJuego(
+    monstruoDataSource: MonstruoDataSource
+) {
+    get("/monstruos/{juego}") {
+        val juego = call.parameters["juego"]
+        if (juego != null) {
+            val lista: List<Monstruo> = monstruoDataSource.filtroJuego(juego)
+            call.respond(HttpStatusCode.OK, lista)
+        } else {
+            call.respond(HttpStatusCode.BadRequest, "Juego no especificadoa")
+        }
     }
 }

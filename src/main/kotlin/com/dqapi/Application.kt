@@ -1,18 +1,13 @@
 package com.dqapi
 
-import com.dqapi.data.monstruo.MonstruoDataSource
-import com.dqapi.data.monstruo.MonstruoDataSourceImpl
-import com.dqapi.data.usuario.Usuario
+import com.dqapi.data.bestiario.MonstruoDataSourceImpl
 import com.dqapi.data.usuario.UsuarioDataSourceImpl
 import io.ktor.server.application.*
 import com.dqapi.plugins.*
 import com.dqapi.security.hash.HashServicioImpl
 import com.dqapi.security.jwt.JwtTokenConfig
 import com.dqapi.security.jwt.JwtTokenService
-import io.ktor.util.*
 import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import org.litote.kmongo.KMongo
 
 fun main(args: Array<String>): Unit =

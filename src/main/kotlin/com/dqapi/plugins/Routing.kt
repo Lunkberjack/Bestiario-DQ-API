@@ -1,7 +1,7 @@
 package com.dqapi.plugins
 
 import com.dqapi.*
-import com.dqapi.data.monstruo.MonstruoDataSource
+import com.dqapi.data.bestiario.MonstruoDataSource
 import com.dqapi.data.usuario.UsuarioDataSource
 import com.dqapi.security.hash.HashService
 import com.dqapi.security.jwt.JwtTokenConfig
@@ -22,10 +22,21 @@ fun Application.configureRouting(
         login(usuarioDataSource, hashServicio, tokenServicio, tokenConf)
         autentificar()
         getInfoSecreta()
+
         // Monstruo
         getMonstruoIdLista(monstruoDataSource)
         getMonstruoNombre(monstruoDataSource)
         newMonstruo(monstruoDataSource)
         getMonstruos(monstruoDataSource)
+
+        // Juego
+        getJuegoAbr(monstruoDataSource)
+
+        // Familia
+        getFamiliaNombre(monstruoDataSource)
+
+        // Filtro
+        filtroFamilia(monstruoDataSource)
+        filtroJuego(monstruoDataSource)
     }
 }
