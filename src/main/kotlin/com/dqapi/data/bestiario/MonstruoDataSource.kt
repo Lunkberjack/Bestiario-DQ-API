@@ -12,6 +12,8 @@ interface MonstruoDataSource {
 
     // Devuelve todos los monstruos en la colección.
     suspend fun getTodosMonstruos(): List<Monstruo>
+    suspend fun getTodasFamilias(): List<Familia>
+    suspend fun getTodosJuegos(): List<Juego>
 
     // Devuelve una familia buscada por nombre.
     suspend fun getFamiliaNombre(nombre: String): Familia?

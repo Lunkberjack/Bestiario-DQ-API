@@ -34,6 +34,14 @@ class MonstruoDataSourceImpl(
         return monstruos.find().toList()
     }
 
+    override suspend fun getTodasFamilias(): List<Familia> {
+        return familias.find().toList()
+    }
+
+    override suspend fun getTodosJuegos(): List<Juego> {
+        return juegos.find().toList()
+    }
+
     override suspend fun getFamiliaNombre(nombre: String): Familia? {
         return familias.findOne(Familia::nombre eq nombre)
     }

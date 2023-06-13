@@ -31,9 +31,11 @@ fun Application.configureRouting(
 
         // Juego
         getJuegoAbr(monstruoDataSource)
+        getJuegos(monstruoDataSource)
 
         // Familia
         getFamiliaNombre(monstruoDataSource)
+        getFamilias(monstruoDataSource)
 
         // Filtro
         filtroFamilia(monstruoDataSource)

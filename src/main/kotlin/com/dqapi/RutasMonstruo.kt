@@ -1,5 +1,7 @@
 package com.dqapi
 
+import com.dqapi.data.bestiario.Familia
+import com.dqapi.data.bestiario.Juego
 import com.dqapi.data.bestiario.Monstruo
 import com.dqapi.data.bestiario.MonstruoDataSource
 import com.dqapi.data.peticiones.PeticionMonstruoPost
@@ -61,6 +63,35 @@ fun Route.getMonstruos(
         }
     }
 }
+
+fun Route.getFamilias(
+    monstruoDataSource: MonstruoDataSource
+) {
+    get("/familias") {
+        val lista: List<Familia> = monstruoDataSource.getTodasFamilias()
+        lista.let {
+            call.respond(
+                HttpStatusCode.OK,
+                lista // Devuelve la lista completa
+            )
+        }
+    }
+}
+
+fun Route.getJuegos(
+    monstruoDataSource: MonstruoDataSource
+) {
+    get("/juegos") {
+        val lista: List<Juego> = monstruoDataSource.getTodosJuegos()
+        lista.let {
+            call.respond(
+                HttpStatusCode.OK,
+                lista // Devuelve la lista completa
+            )
+        }
+    }
+}
+
 
 fun Route.getMonstruoIdLista(
     monstruoDataSource: MonstruoDataSource
