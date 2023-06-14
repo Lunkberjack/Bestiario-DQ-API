@@ -58,13 +58,7 @@ class MonstruoDataSourceImpl(
             emptyList()
         }
     }
-
-    override suspend fun filtroJuego(abr: String): List<Monstruo> {
-        val juego = juegos.findOne(Juego::abr eq abr)
-        return if (juego != null) {
-            return monstruos.find(Monstruo::atributos.elemMatch(Juego::abr eq abr)).toList()
-        } else {
-            emptyList()
+        override suspend fun filtroJuego(abr: String): List<Monstruo> {
+            return monstruos.find(Monstruo::atributos.elemMatch(Atributo::juego eq abr)).toList()
         }
-    }
 }

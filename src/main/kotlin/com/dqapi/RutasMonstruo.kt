@@ -132,7 +132,7 @@ fun Route.getMonstruoNombre(
 fun Route.getFamiliaNombre(
     monstruoDataSource: MonstruoDataSource
 ) {
-    get("/monstruo/familia/{nombre}") {
+    get("/familia/{nombre}") {
         val familiaNombre = call.parameters["nombre"]
         val familia = familiaNombre?.let { it1 -> monstruoDataSource.getFamiliaNombre(it1) }
         familia?.let {
@@ -150,7 +150,7 @@ fun Route.getFamiliaNombre(
 fun Route.getJuegoAbr(
     monstruoDataSource: MonstruoDataSource
 ) {
-    get("/monstruo/juego/{abr}") {
+    get("/juego/{abr}") {
         val juegoAbr = call.parameters["abr"]
         val juego = juegoAbr?.let { it1 -> monstruoDataSource.getJuegoNombre(it1) }
         juego?.let {
@@ -168,7 +168,7 @@ fun Route.getJuegoAbr(
 fun Route.filtroFamilia(
     monstruoDataSource: MonstruoDataSource
 ) {
-    get("/monstruos/{familia}") {
+    get("/monstruos/familia/{familia}") {
         val familia = call.parameters["familia"]
         if (familia != null) {
             val lista: List<Monstruo> = monstruoDataSource.filtroFamilia(familia)
@@ -182,13 +182,13 @@ fun Route.filtroFamilia(
 fun Route.filtroJuego(
     monstruoDataSource: MonstruoDataSource
 ) {
-    get("/monstruos/{juego}") {
-        val juego = call.parameters["juego"]
+    get("/monstruos/juego/{abr}") {
+        val juego = call.parameters["abr"]
         if (juego != null) {
             val lista: List<Monstruo> = monstruoDataSource.filtroJuego(juego)
             call.respond(HttpStatusCode.OK, lista)
         } else {
-            call.respond(HttpStatusCode.BadRequest, "Juego no especificadoa")
+            call.respond(HttpStatusCode.BadRequest, "Juego no especificado")
         }
     }
 }
