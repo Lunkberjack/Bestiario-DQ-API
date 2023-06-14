@@ -53,14 +53,11 @@ fun Route.newMonstruo(
 fun Route.getMonstruos(
     monstruoDataSource: MonstruoDataSource
 ) {
-    get("/monstruos") {
-        val lista: List<Monstruo> = monstruoDataSource.getTodosMonstruos()
-        lista.let {
-            call.respond(
-                HttpStatusCode.OK,
-                lista // Devuelve la lista completa
-            )
-        }
+    get("/monstruos/{orden}/{tipo}") {
+        val orden = call.parameters["orden"]
+        val tipo = call.parameters["tipo"]
+        val lista: List<Monstruo> = monstruoDataSource.getTodosMonstruos(orden, tipo)
+        call.respond(HttpStatusCode.OK, lista)
     }
 }
 
@@ -191,4 +188,10 @@ fun Route.filtroJuego(
             call.respond(HttpStatusCode.BadRequest, "Juego no especificado")
         }
     }
+}
+
+fun Route.listaOrdenada(
+    monstruoDataSource: MonstruoDataSource
+) {
+
 }

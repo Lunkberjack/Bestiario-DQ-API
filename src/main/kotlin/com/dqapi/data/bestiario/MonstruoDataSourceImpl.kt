@@ -1,17 +1,15 @@
 package com.dqapi.data.bestiario
 
 import com.mongodb.client.MongoDatabase
-import org.litote.kmongo.elemMatch
-import org.litote.kmongo.eq
-import org.litote.kmongo.findOne
-import org.litote.kmongo.getCollection
+import com.mongodb.client.model.Sorts
+import org.litote.kmongo.*
 
 class MonstruoDataSourceImpl(
     db: MongoDatabase
-): MonstruoDataSource {
-    val monstruos = db.getCollection<Monstruo>("monstruos")
-    val familias = db.getCollection<Familia>("familias")
-    val juegos = db.getCollection<Juego>("juegos")
+) : MonstruoDataSource {
+    private val monstruos = db.getCollection<Monstruo>("monstruos")
+    private val familias = db.getCollection<Familia>("familias")
+    private val juegos = db.getCollection<Juego>("juegos")
 
     override suspend fun getMonstruoIdLista(idLista: String): Monstruo? {
         // Encontramos un monstruo en la db que tenga el mismo id que el que
@@ -30,8 +28,26 @@ class MonstruoDataSourceImpl(
         return monstruos.insertOne(monstruo).wasAcknowledged()
     }
 
-    override suspend fun getTodosMonstruos(): List<Monstruo> {
-        return monstruos.find().toList()
+    override suspend fun getTodosMonstruos(orden: String?, tipo: String?): List<Monstruo> {
+        val query = if (orden != null) {
+            when (tipo) {
+                "Ascendente" -> {
+                    monstruos.find().sort(Sorts.ascending(orden))
+                }
+
+                "Descendente" -> {
+                    monstruos.find().sort(Sorts.descending(orden))
+                }
+
+                else -> {
+                    // Por defecto, Ascendente.
+                    monstruos.find().sort(Sorts.ascending(orden))
+                }
+            }
+        } else {
+            monstruos.find()
+        }
+        return query.toList()
     }
 
     override suspend fun getTodasFamilias(): List<Familia> {
@@ -58,7 +74,8 @@ class MonstruoDataSourceImpl(
             emptyList()
         }
     }
-        override suspend fun filtroJuego(abr: String): List<Monstruo> {
-            return monstruos.find(Monstruo::atributos.elemMatch(Atributo::juego eq abr)).toList()
-        }
+
+    override suspend fun filtroJuego(abr: String): List<Monstruo> {
+        return monstruos.find(Monstruo::atributos.elemMatch(Atributo::juego eq abr)).toList()
+    }
 }
