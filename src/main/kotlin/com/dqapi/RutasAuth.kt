@@ -107,6 +107,7 @@ fun Route.login(
             status = HttpStatusCode.OK,
             message = RespuestaAuth(
                 token = token,
+                username = usuario.username,
                 admin = usuario.admin
             )
         )
