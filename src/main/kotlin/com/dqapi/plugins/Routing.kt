@@ -27,6 +27,8 @@ fun Application.configureRouting(
         getMonstruoIdLista(monstruoDataSource)
         getMonstruoNombre(monstruoDataSource)
         newMonstruo(monstruoDataSource)
+        actualizarMonstruo(monstruoDataSource)
+        borrarMonstruo(monstruoDataSource)
         getMonstruos(monstruoDataSource)
 
         // Juego

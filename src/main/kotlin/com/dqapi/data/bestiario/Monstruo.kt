@@ -7,10 +7,10 @@ import org.bson.types.ObjectId
 @Serializable
 data class Monstruo(
     val idLista: String,
-    val nombre: String,
-    val imagen: String,
-    val familia: String,
-    val atributos: List<Atributo>,
+    var nombre: String,
+    var imagen: String,
+    var familia: String,
+    var atributos: List<Atributo>,
     @BsonId
     val id: String = ObjectId().toString()
 )

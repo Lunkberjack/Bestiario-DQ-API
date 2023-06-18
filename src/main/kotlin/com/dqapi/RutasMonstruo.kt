@@ -47,6 +47,59 @@ fun Route.newMonstruo(
     }
 }
 
+fun Route.actualizarMonstruo(
+    monstruoDataSource: MonstruoDataSource
+) {
+    // PUT para actualizar.
+    put("/monstruo/{idLista}/editar") {
+        val idLista = call.parameters["idLista"]
+        val peticion = call.receiveNullable<PeticionMonstruoPost>() ?: kotlin.run {
+            call.respond(HttpStatusCode.BadRequest)
+            return@put
+        }
+
+        val enBlanco = peticion.imagen.isBlank() || peticion.nombre.isBlank()
+
+        // Devolvemos un mensaje de conflicto si alguno de estos campos no se ha incluido.
+        if (enBlanco) {
+            call.respond(HttpStatusCode.Conflict)
+            return@put
+        }
+
+        val monstruo = idLista?.let { it1 ->
+            Monstruo(
+                idLista = it1,
+                nombre = peticion.nombre,
+                imagen = peticion.imagen,
+                familia = peticion.familia,
+                atributos = peticion.atributos
+            )
+        }
+
+        val actualizado = monstruo?.let { it1 -> monstruoDataSource.actualizarMonstruo(idLista, monstruo) }
+        if (actualizado == true) {
+            call.respond(HttpStatusCode.OK)
+        } else {
+            call.respond(HttpStatusCode.NotFound, "No se encontró el monstruo a actualizar")
+        }
+    }
+}
+
+fun Route.borrarMonstruo(
+    monstruoDataSource: MonstruoDataSource
+) {
+    delete("/monstruo/{idLista}/borrar") {
+        val idLista = call.parameters["idLista"]
+        // Si no es nulo, se borra.
+        val deleted = idLista?.let { it1 -> monstruoDataSource.borrarMonstruo(it1) }
+        if (deleted == true) {
+            call.respond(HttpStatusCode.OK, "Monstruo eliminado")
+        } else {
+            call.respond(HttpStatusCode.NotFound, "No se encontró el monstruo a eliminar")
+        }
+    }
+}
+
 /**
  * Devuelve el id del usuario que hace la petición.
  */
@@ -188,10 +241,4 @@ fun Route.filtroJuego(
             call.respond(HttpStatusCode.BadRequest, "Juego no especificado")
         }
     }
-}
-
-fun Route.listaOrdenada(
-    monstruoDataSource: MonstruoDataSource
-) {
-
 }

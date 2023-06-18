@@ -28,6 +28,25 @@ class MonstruoDataSourceImpl(
         return monstruos.insertOne(monstruo).wasAcknowledged()
     }
 
+    override suspend fun actualizarMonstruo(idLista: String, monstruo: Monstruo): Boolean {
+        val updateResult = monstruos.updateOne(
+            Monstruo::idLista eq idLista,
+            set(
+                Monstruo::nombre setTo monstruo.nombre,
+                Monstruo::imagen setTo monstruo.imagen,
+                Monstruo::familia setTo monstruo.familia,
+                Monstruo::atributos setTo monstruo.atributos
+            )
+        )
+        return updateResult.modifiedCount > 0
+    }
+
+    override suspend fun borrarMonstruo(idLista: String): Boolean {
+        // Es muy probable que el admin se equivoque de id y este sea un caso para borrar
+        // el monstruo en lugar de editarlo. Por si acaso, sólo borramos uno.
+        return monstruos.deleteOne(Monstruo::idLista eq idLista).wasAcknowledged()
+    }
+
     override suspend fun getTodosMonstruos(orden: String?, tipo: String?): List<Monstruo> {
         val query = if (orden != null) {
             when (tipo) {

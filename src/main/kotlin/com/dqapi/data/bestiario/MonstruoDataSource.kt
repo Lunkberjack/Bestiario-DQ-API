@@ -9,6 +9,8 @@ interface MonstruoDataSource {
 
     // Devuelve true si se insertó y false si no.
     suspend fun aniadirMonstruo(monstruo: Monstruo): Boolean
+    suspend fun actualizarMonstruo(idLista: String, monstruo: Monstruo): Boolean
+    suspend fun borrarMonstruo(idLista: String): Boolean
 
     // Devuelve todos los monstruos en la colección, con un orden elegido.
     suspend fun getTodosMonstruos(orden: String? = "idLista", tipo: String? = "Ascendente"): List<Monstruo>
