@@ -1,5 +1,7 @@
 package com.dqapi.data.bestiario
 
+import com.dqapi.data.respuestas.MonstruoBusqueda
+
 interface MonstruoDataSource {
     // Puede devolver un Monstruo o un nulo.
     suspend fun getMonstruoIdLista(idLista: String): Monstruo?
@@ -14,6 +16,7 @@ interface MonstruoDataSource {
 
     // Devuelve todos los monstruos en la colección, con un orden elegido.
     suspend fun getTodosMonstruos(orden: String? = "idLista", tipo: String? = "Ascendente"): List<Monstruo>
+    suspend fun getMonstruosBusqueda(orden: String? = "idLista", tipo: String? = "Ascendente"): List<MonstruoBusqueda>
     suspend fun getTodasFamilias(): List<Familia>
     suspend fun getTodosJuegos(): List<Juego>
 

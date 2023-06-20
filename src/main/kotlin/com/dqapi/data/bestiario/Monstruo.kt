@@ -8,9 +8,9 @@ import org.bson.types.ObjectId
 data class Monstruo(
     val idLista: String,
     var nombre: String,
-    var imagen: String,
-    var familia: String,
-    var atributos: List<Atributo>,
+    var imagen: String?,
+    var familia: String?,
+    var atributos: List<Atributo>?,
     @BsonId
-    val id: String = ObjectId().toString()
+    val id: String? = ObjectId().toString()
 )

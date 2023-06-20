@@ -5,6 +5,7 @@ import com.dqapi.data.bestiario.Juego
 import com.dqapi.data.bestiario.Monstruo
 import com.dqapi.data.bestiario.MonstruoDataSource
 import com.dqapi.data.peticiones.PeticionMonstruoPost
+import com.dqapi.data.respuestas.MonstruoBusqueda
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
@@ -110,6 +111,17 @@ fun Route.getMonstruos(
         val orden = call.parameters["orden"]
         val tipo = call.parameters["tipo"]
         val lista: List<Monstruo> = monstruoDataSource.getTodosMonstruos(orden, tipo)
+        call.respond(HttpStatusCode.OK, lista)
+    }
+}
+
+fun Route.getMonstruosBusqueda(
+    monstruoDataSource: MonstruoDataSource
+) {
+    get("/monstruosBusqueda/{orden}/{tipo}") {
+        val orden = call.parameters["orden"]
+        val tipo = call.parameters["tipo"]
+        val lista: List<MonstruoBusqueda> = monstruoDataSource.getMonstruosBusqueda(orden, tipo)
         call.respond(HttpStatusCode.OK, lista)
     }
 }

@@ -30,6 +30,7 @@ fun Application.configureRouting(
         actualizarMonstruo(monstruoDataSource)
         borrarMonstruo(monstruoDataSource)
         getMonstruos(monstruoDataSource)
+        getMonstruosBusqueda(monstruoDataSource)
 
         // Juego
         getJuegoAbr(monstruoDataSource)

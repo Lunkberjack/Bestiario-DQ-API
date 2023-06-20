@@ -1,6 +1,8 @@
 package com.dqapi.data.bestiario
 
+import com.dqapi.data.respuestas.MonstruoBusqueda
 import com.mongodb.client.MongoDatabase
+import com.mongodb.client.model.Projections
 import com.mongodb.client.model.Sorts
 import org.litote.kmongo.*
 
@@ -68,6 +70,35 @@ class MonstruoDataSourceImpl(
         }
         return query.toList()
     }
+
+
+    /**
+     * Trae sólo el id y el nombre para optimización en resultados de búsqueda.
+     */
+    override suspend fun getMonstruosBusqueda(orden: String?, tipo: String?): List<MonstruoBusqueda> {
+            val projection = Projections.include(Monstruo::idLista.name, Monstruo::nombre.name)
+
+            val query = if (orden != null) {
+                when (tipo) {
+                    "Ascendente" -> {
+                        monstruos.find().projection(projection).sort(Sorts.ascending(orden))
+                    }
+                    "Descendente" -> {
+                        monstruos.find().projection(projection).sort(Sorts.descending(orden))
+                    }
+                    else -> {
+                        // Por defecto, Ascendente.
+                        monstruos.find().projection(projection).sort(Sorts.ascending(orden))
+                    }
+                }
+            } else {
+                monstruos.find().projection(projection)
+            }
+
+            return query.map { monstruo ->
+                MonstruoBusqueda(monstruo.idLista, monstruo.nombre)
+            }.toList()
+        }
 
     override suspend fun getTodasFamilias(): List<Familia> {
         return familias.find().toList()
